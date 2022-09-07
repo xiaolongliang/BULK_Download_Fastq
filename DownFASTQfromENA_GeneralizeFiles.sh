@@ -8,11 +8,12 @@ FASTQ are download from ENA database, enter into by BioProject and select fastq_
 #set parameters
 FqList=$1  #filereport_read_run_PRJNA624020_tsv
 SampleInforList=$2  #SraRunTable
+CPU=$3 #ParaFly CPU core
 workdir="/opt/synData/xlliang/Sheep_data/resequence/2020NC_248indiv_WGS_sheep"
 sed -i '1d' $FqList
 
 echo "================How to run?================="
-echo "sh download.sh filereport_read_run_PRJNA624020_tsv SraRunTable"
+echo "sh download.sh filereport_read_run_PRJNA624020_tsv SraRunTable 20"
 
 echo "==========create FASTQ directory============"
 if [ ! -d "${workdir}/FASTQ" ];then
@@ -30,7 +31,7 @@ done
 
 echo "==========Parallel computing by ParaFly=============="
 source ~/miniconda3/bin/activate
-echo "ParaFly -c download.run.sh -CPU 20" > ParaFly.run.sh
+echo "ParaFly -c download.run.sh -CPU ${CPU}" > ParaFly.run.sh
 nohup sh ParaFly.run.sh > ParaFly.log 2>&1 & 
 
 echo "========== Create folder and Generalize files into specific folders ============"
